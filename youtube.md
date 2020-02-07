@@ -62,32 +62,32 @@ class App extends Component{
           videos:[],
           term:'',
           selectedVideo: null
-    }    
-    YTSearch({key:API_KEY,term:'hello'},(data)=>{
-      this.setState({
-        videos:data,
-        selectedVideo: data[0]
-      })
-      console.log(data);
+        }    
+    YTSearch({key:API_KEY,term:'lck'},(data)=>{
+        this.setState({
+          videos:data,
+          selectedVideo: data[0]
+        })
+        console.log(data);
     });
    
   
 
   }
 
-  handleCreate = (data1)=>{
+  handleSearch = (search)=>{
  
         this.setState({
-          term: data1
-    })
-    console.log(this.state.term)
-    YTSearch({key:API_KEY,term:this.state.term},(data)=>{
-      this.setState({
-        videos:data
-      })
-      
-      console.log(data);
-    });
+          term: search
+        })
+   
+        YTSearch({key:API_KEY,term:this.state.term},(data)=>{
+              this.setState({
+                videos:data
+              })
+          
+              console.log(data);
+        });
   }
 
  
@@ -101,11 +101,12 @@ class App extends Component{
 
   render(){
     
+ 
     return (
       
       <div>
        
-        <SearchBar onCreate={this.handleCreate} name='term'/>
+        <SearchBar onSearch={this.handleSearch} name='term'/>
         <VideoDetail video={this.state.selectedVideo}/>
         <VideoList onVideoSelect={this.handleSelect} videos={this.state.videos} />
          {/* <VideoList onVideoSelect={selectedVideo=>this.setState({selectedVideo})} videos={this.state.videos} /> //함수안쓰고 바로 쓰는 방법   위에랑 같은 표현 */} 
@@ -165,14 +166,14 @@ class SearchBar extends Component{
         super(props);
 
             this.state = {
-            term : ''
+            search : ''
         }    
     }
 
     handleSubmit=(e)=>{
         e.preventDefault();
-        
-        this.props.onCreate(this.state.term);
+       
+        this.props.onSearch(this.state.search);
         
     }
    
@@ -189,9 +190,9 @@ class SearchBar extends Component{
         return(
             <form onSubmit={this.handleSubmit}>
             <div className='search-bar'>
-            <input   onChange={this.onInputChange} name='term'/> 
+            <input   onChange={this.onInputChange} name='search'/> 
             <button type="submit" >검색</button>
-            <div>Value of the input: {this.state.term}</div>
+            <div>Value of the input: {this.state.search}</div>
             </div>
             
             </form>
@@ -296,4 +297,12 @@ export default VideoDetail
 ```
 
 
+
+### 검색시간 조절
+
+- lodash
+
+````shell
+npm install --save lodash
+````
 
