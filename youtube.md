@@ -46,7 +46,7 @@ import VideoList from './components/video_list';
 import VideoDetail from './components/video_detail';
 
 
-const API_KEY = 'AIzaSyD8xBO9Zdk-I297gRXHo3_xXlaFmFn6DJ0';
+const API_KEY = '';
 
 // YTSearch({key:API_KEY,term: 'surfboards'}, function(data){
 //   console.log(data);
