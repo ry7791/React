@@ -6,6 +6,19 @@
 <!DOCTYPE html>
 <html>
 <head> 
+    <style>
+        .item {
+          display: inline-block;
+          overflow: hidden;
+          width: 200px; 
+        }
+        .red {
+          color: red;
+        }
+        .blue {
+          color: blue;
+        }
+      </style>
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
@@ -21,17 +34,39 @@
     $(document).ready(function() {
 
         //시작날짜 옵션 지정
-        //let start_year= document.getElementById("start_year");
+        
+        //옵션으로 시작 월을 1~12까지 생성
+        let start_month= document.getElementById("start_month");
+
+        start_month.innerHTML='';
+        for(let i=1;i<13;i++){
+            start_month.innerHTML+= "<option value="+i+">"+i+"월</option>";
+
+        }
+        ////////////////////////////////////
+
+        // 옵션으로 시작 일을 1~31까지 생성
         let start_date= document.getElementById("start_date");
         
         
         start_date.innerHTML='';
-        for(let i=1;i<31;i++){
+        for(let i=1;i<32;i++){
             start_date.innerHTML+= "<option value="+i+">"+i+"일</option>";
 
         }
 
         //종료날짜 옵션 지정
+
+        //옵션으로 종료 월을 1~12까지 생성
+        let end_month= document.getElementById("end_month");
+
+        end_month.innerHTML='';
+        for(let i=1;i<13;i++){
+            end_month.innerHTML+= "<option value="+i+">"+i+"월</option>";
+
+        }
+
+        // 옵션으로 종료 일을 1~31까지 생성
         let end_date= document.getElementById("end_date");
         
         end_date.innerHTML='';
@@ -45,11 +80,11 @@
 
 
         $('#btnSubmit').on('click',function(){
-            let start_month1 = $('#start_month > option:selected').val();
-            let start_date1 = $('#start_date > option:selected').val();
+            let start_month1 = $('#start_month > option:selected').val();  // 내가 선택한 시작 월을 start_month1 에 집어넣음
+            let start_date1 = $('#start_date > option:selected').val(); // 내가 선택한 시작 일을  start_date1 에 집어넣음
 
-            let end_month1 = $('#end_month > option:selected').val();
-            let end_date1 = $('#end_date > option:selected').val();
+            let end_month1 = $('#end_month > option:selected').val(); // 내가 선택한 종료 월을 end_month1 에 집어넣음
+            let end_date1 = $('#end_date > option:selected').val(); // 내가 선택한 종료 일을 end_date1 에 집어넣음
             //console.log(start_month1+"/"+start_date1+"   "+end_month1+"/"+end_date1+"////////////////////////////");
 
         $.ajax({
@@ -62,7 +97,7 @@
                                     'end':"9999999999",
                                     'period':"86400"
                                 },
-                                
+                                // api 데이터를 가져오고 start 타임스탬프는 2020년1월1일을 기준으로 함
 
                                 success: function(data){  
                                     let dateArray = [];       
@@ -70,24 +105,26 @@
                                     let lowArray = [];
                                     let searchArray=[];
                                     let data11=[];
+
+                                    // 데이터를 dateArray에 표준 시간으로 변환해서 집어 넣음 
                                     for(let i=0;i<data.length;i++){
                                         let timestamp = data[i].date*1000;
                                         var date = new Date(timestamp);
                                         
                                         dateArray.push(date.getMonth()+1+"/"+date.getDate());
-                                        //console.log(dateArray[i]);
+                                        
                                     }
+
+                                    
                                     $('#contents').empty();
-                                    //console.log(date.getMonth()+"///////////////////");
+                                 
                                     for(let i=0;i<data.length;i++){
                                         let timestamp = data[i].date*1000;
                                         var date = new Date(timestamp);
 
-                                        // if((date.getMonth()+1>=start_month1 && date.getMonth()+1<=end_month1)&&(date.getDate()>=start_date1 && date.getDate() <=end_date1)){
-                                        // searchArray.push(date.getMonth()+1+"/"+date.getDate());
-                                        // }
+                                       
                                         let result =1 ;
-                                        //시작날짜 조정
+                                        //시작날짜 조정  //지정한 날짜가 아니면 result=0으로 만들어서 let data11에 데이터 안들어가게 만듬
                                         if(date.getMonth()+1>=start_month1){
                                             if(date.getMonth()+1==start_month1&&date.getDate()<start_date1){
                                                 result=0;
@@ -109,11 +146,11 @@
                                                     
                                                     
                                                     
-                                                    
-                                                    let _divhtml = date.getMonth()+1+"-"+date.getDate();
-                                                    _divhtml += "<span style='color:red '>  최고가:"+data[i].high+"</span>";
-                                                    _divhtml += "<span style='color:blue'>   최저가:"+data[i].low+"</span>";
-                                                    _divhtml += "<span >   vloume:"+data[i].volume+"</span>";
+                                                    //데이터 나타내기
+                                                    let _divhtml = "<span class='item'>"+date.getMonth()+1+"-"+date.getDate()+"</span>";
+                                                    _divhtml += "<span class='item red'>  최고가:"+data[i].high+"</span>";
+                                                    _divhtml += "<span class='item blue'>   최저가:"+data[i].low+"</span>";
+                                                    _divhtml += "<span  class='item'>   vloume:"+data[i].volume+"</span>";
                                                     
 
                                                     let infoSpan = document.createElement("span");
@@ -177,12 +214,8 @@
     });
 
     });
-    // function drawChart(array,item){
-    //     for(let i=0;i<data.length;i++){                                                        
-    //         array.push(data[i].item);
-    //         console.log(array[i]);
-    //     }
-    // }
+  
+
   </script>
 </head> 
 <body> 
@@ -192,18 +225,7 @@
 
             <select id="start_month">
                 
-                <option value=1>1월</option>
-                <option value=2>2월</option>
-                <option value=3>3월</option>
-                <option value=4>4월</option>
-                <option value=5>5월</option>
-                <option value=6>6월</option>
-                <option value=7>7월</option>
-                <option value=8>8월</option>
-                <option value=9>9월</option>
-                <option value=10>10월</option>
-                <option value=11>11월</option>
-                <option value=12>12월</option>
+               
             </select>
             <select id="start_date">
             
@@ -211,18 +233,7 @@
         </div>
     <div> 종료날짜
             <select id="end_month">
-            <option value=1>1월</option>
-            <option value=2>2월</option>
-            <option value=3>3월</option>
-            <option value=4>4월</option>
-            <option value=5>5월</option>
-            <option value=6>6월</option>
-            <option value=7>7월</option>
-            <option value=8>8월</option>
-            <option value=9>9월</option>
-            <option value=10>10월</option>
-            <option value=11>11월</option>
-            <option value=12>12월</option>
+            
         </select>
         <select id="end_date">
             
@@ -231,14 +242,9 @@
     </div>
     
 
-    <!-- <input type="text" name="start_month" placeholder="월"> 월</input>
-    <input type="text" name="start_date" placeholder="일">일</input>
-    <div>      종료날짜</div>
-    <input type="text" name="end_month" placeholder="월"> 월</input>
-    <input type="text" name="end_date" placeholder="일">일</input> -->
     
     <canvas id="myChart"></canvas> 
-    <h1 id='contents' style='word-spacing:100px' > </h1>
+    <h1 id='contents' > </h1>
   </div> 
 </body>
 </html>
