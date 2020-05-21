@@ -125,3 +125,116 @@ const Page3 = () => {
 export default Page3;
 ```
 
+
+
+
+
+
+
+
+
+
+
+##  실습
+
+- app.js
+
+```js
+import React, { Component } from 'react'; 
+import About from './routes/About';
+import Home from './routes/Home';
+import Posts from './routes/Posts';
+
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Header from './components/header';
+import Login from './routes/Login';
+import MyProfile from './routes/MyProfile';
+import Search from './routes/Search';
+import NotFound from './routes/NotFound';
+
+class App extends Component {
+  render() {
+    return (
+
+        <Router>
+          <Header/>
+            <Switch>
+              <Route exact path="/" component={Home}/>
+              <Route path="/about/:userid" component={About}/>
+              <Route path="/posts" component={Posts}/>
+              <Route path="/search" component={Search}/>
+              <Route path="/mypage" component={MyProfile}/>
+              <Route path="/login" component={Login}/>
+              <Route component={NotFound}/>
+            </Switch>
+        </Router>
+
+    );
+  }
+}
+
+export default App;
+```
+
+
+
+- components/header.js
+
+```js
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import './Header.css'
+const Header = () => {
+    return (
+        <div className="header">
+            
+                <NavLink exact to ="/"
+                className="item">Home</NavLink>
+                <NavLink to ="/about/junguk"
+                className="item">About</NavLink>
+                <NavLink to="/posts" className="item">Posts</NavLink>
+                <NavLink to="/search" className="item">Search</NavLink>
+                <NavLink to="/mypage" className="item">My Profile</NavLink>
+                <NavLink to="/login" className="item">Login</NavLink>
+                
+            
+        </div>
+    );
+};
+
+export default Header;
+
+```
+
+
+
+- components/Header.css
+
+```js
+.header {
+    background: #5c7cfa;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.item{
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: table-cell;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.item:hover {
+    background: #748ffc;
+}
+
+.item:active, .item.active{
+    background: white;
+    color: #5c7cfa;
+}
+```
+
